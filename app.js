@@ -22,7 +22,7 @@ app.get("/allCard", async (req, res) => {
 // Main page with html
 app.get("/", async (req, res) => {
   res.sendFile(`${credit_card}/index.html`);
-});
+}) ;
 
 
 // // Luhn10 Check for credit card
