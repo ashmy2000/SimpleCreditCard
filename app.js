@@ -5,7 +5,7 @@ const express = require("express");
 const app = express();
 const PORT = 7000;
 const path = require("path");
-const dbConnection = require("./mongodb");
+const dbConnection = require("./database/mongodb");
 const credit_card = path.join(__dirname, "frontend");
 
 // Allows you to recieve data from postman body
@@ -33,7 +33,10 @@ function isValidCreditCardNumber(creditCardNumber) {
   }
 
   // Remove all non-digit characters from the credit card number
-  const digits = creditCardNumber.replace(/\D/g, '');
+
+  
+
+const digits = creditCardNumber.replace(/\D/g, '');
 
   // Check if the remaining characters form a valid Luhn 10 number
   const sum = Array.from(digits).reverse().reduce((acc, digit, i) => {
