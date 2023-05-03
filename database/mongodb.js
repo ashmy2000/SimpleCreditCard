@@ -1,8 +1,11 @@
 
 //MongoDB Connection 
+require('dotenv').config();  
+
 
 const { MongoClient } = require("mongodb");
-const uri = "mongodb+srv://demo:demo123@atlascluster.dxa8hau.mongodb.net/?retryWrites=true&w=majority";
+// const uri = "mongodb+srv://demo:demo123@atlascluster.dxa8hau.mongodb.net/?retryWrites=true&w=majority";
+const uri = `mongodb+srv://demo:${process.env.MONGODB_PASSWORD}@atlascluster.dxa8hau.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri);
 const databaseName = "CreditCard";
 
