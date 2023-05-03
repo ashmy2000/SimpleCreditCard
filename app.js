@@ -11,6 +11,10 @@ const credit_card = path.join(__dirname, "frontend") ;
 // Allows you to recieve data from postman body
 app.use(express.json());
 app.use(bodyParser.json());
+
+
+//APP.GET /ALLCARDS
+
 // Fetch data from Mongo through API
 app.get("/allCard", async (req, res) => {
   let data = await dbConnection();
@@ -18,6 +22,8 @@ app.get("/allCard", async (req, res) => {
   // Assume you have a MongoDB collection named "users"
   res.send(data);
 });
+
+//GET /
 
 // Main page with html
 app.get("/", async (req, res) => {
@@ -48,6 +54,7 @@ const digits = creditCardNumber.replace(/\D/g, '');
 }
 
 
+//POST /
 app.post("/", async (req, res) => {
   try {
     const creditCardNumber = req.body.card_number;
@@ -71,6 +78,8 @@ app.post("/", async (req, res) => {
 
 });
 
+//PUT /
+
 //Update ddb using id in postman body 
 app.put("/", async (req, res) => {
   let data = await dbConnection();
@@ -78,6 +87,7 @@ app.put("/", async (req, res) => {
   res.send({ status: "updated" });
 });
 
+//DELETE /:id
 app.delete("/:id", async (req, res) => {
   const data = await dbConnection();
   const result = await data.deleteOne({ _id: new mongodb.ObjectId(req.params.id)});
