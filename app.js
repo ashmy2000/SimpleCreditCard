@@ -6,7 +6,7 @@ const app = express();
 const PORT = 7000;
 const path = require("path");
 const dbConnection = require("./database/mongodb");
-const credit_card = path.join(__dirname, "frontend");
+const credit_card = path.join(__dirname, "frontend") ;
 
 // Allows you to recieve data from postman body
 app.use(express.json());

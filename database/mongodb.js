@@ -10,7 +10,7 @@ const databaseName = "CreditCard";
 async function dbConnection() {
   let result = await client.connect();
   db = result.db(databaseName);
-  return db.collection("ListOfCreditCards");
+  return db.collection("ListOfCreditCards"); 
   // let data = await collection.find({}).toArray();
   // console.log(data);
 }
