@@ -7,4 +7,4 @@ frontend/
 ._mongodb.js/
 ._package-lock.json/ 
 ._package.json/ 
-.env/
+.env
