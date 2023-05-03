@@ -1,6 +1,7 @@
 node_modules/
 frontend/
 ._.git/
+._git/
 ._.gitignore/
 ._app.js/
 ._mongodb.js/
