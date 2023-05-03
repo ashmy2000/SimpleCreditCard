@@ -3,6 +3,9 @@ const mongodb = require("mongodb");
 const dbConnection = require("../database/mongodb");
 const bodyParser = require("body-parser");
 
+//Ref to controller
+const cardController = require('../controller/cards');
+
 // import the functions from the creditCardChecker module
 const isValidCreditCardNumber = require("../controller/crediCardChecker");
 
@@ -13,14 +16,7 @@ router.use(bodyParser.json());
 
 
 
-
-
-router.get("/allCard", async (req, res) => {
-  let data = await dbConnection();
-  data = await data.find({}).toArray();
-  // Assume you have a MongoDB collection named "users"
-  res.send(data);
-});
+router.get("/", cardController.getAllCards);
 
 
 
