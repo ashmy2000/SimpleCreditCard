@@ -1,25 +1,29 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const creditCardSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
+const creditCardSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    card_number: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    balance: {
+      type: Number,
+      required: true,
+      //as requested to be default if nothing entered
+      default: 0,
+    },
+    limit: {
+      type: Number,
+      required: true,
+    },
+    //already defined colletion name in MongoDB
   },
-  card_number: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  balance: {
-    type: Number,
-    required: true,
-    //as requested to be default
-    default: 0
-  },
-  limit: {
-    type: Number,
-    required: true
-  }
-}, { collection: 'CreditCard' });
+  { collection: "CreditCard" }
+);
 
-module.exports = mongoose.model('CreditCard', creditCardSchema);
+module.exports = mongoose.model("CreditCard", creditCardSchema);
