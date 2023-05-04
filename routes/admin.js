@@ -13,7 +13,7 @@ router.use(bodyParser.json());
 
 
 
-//Get's all the existing cards from mongoDB
+//GET Req -> /
 router.get("/", cardController.getAllCards);
 
 

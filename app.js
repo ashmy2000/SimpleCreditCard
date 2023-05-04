@@ -10,11 +10,10 @@ app.use(bodyParser.json());
 
 //import routes
 const adminRoutes = require("./routes/admin");
-//import routes from frontend
-const adminRoutesFrontend = require("./routes/frontend");
 
+//Incoming req goes to adminRoutes... 
 app.use(adminRoutes);
-app.use(adminRoutesFrontend);
+
 
 
 app.listen(PORT, () => console.log(`LIVE on Localhost on :${PORT}`));

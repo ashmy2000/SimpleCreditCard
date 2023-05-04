@@ -2,6 +2,8 @@ const mongodb = require("mongodb");
 const dbConnection = require("../database/mongodb");
 // import the functions from the creditCardChecker module
 const isValidCreditCardNumber = require("../controller/crediCardChecker");
+//Models Schema
+const CreditCard = require('../models/cardModels');
 
 exports.getAllCards = async (req, res, next) => {
     let data = await dbConnection();
@@ -18,14 +20,21 @@ exports.getAllCards = async (req, res, next) => {
         res.send({
           status: "INVALID CREDIT CARD -> Format should be 4444555566667777",
         });
-        console.log("invlid ceredit card");
+        console.log("invalid credit card");
         return;
       }
   
-      let data = await dbConnection();
-      let addCard = await data.insertOne(req.body);
+      const newCreditCard = new CreditCard({
+        name: req.body.name,
+        card_number: req.body.card_number,
+        balance: req.body.balance || 0,
+        limit: req.body.limit
+      });
   
-      console.log(req.body);
+      let data = await dbConnection();
+      let addCard = await data.insertOne(newCreditCard);
+  
+      console.log(newCreditCard);
       res.send(addCard);
     } catch (e) {
       console.log(e); 
