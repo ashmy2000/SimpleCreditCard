@@ -1,13 +1,11 @@
 const express = require("express");
-const mongodb = require("mongodb");
-const dbConnection = require("../database/mongodb");
+
 const bodyParser = require("body-parser");
 
 //Ref to controller
 const cardController = require('../controller/cards');
 
-// import the functions from the creditCardChecker module
-const isValidCreditCardNumber = require("../controller/crediCardChecker");
+
 
 //mini express app with the other express.
 const router = express.Router();
@@ -15,54 +13,20 @@ router.use(bodyParser.json());
 
 
 
-
+//Get's all the existing cards from mongoDB
 router.get("/", cardController.getAllCards);
 
 
+//Adds new credit card with Luhn 10 validation 
+router.post("/", cardController.addCard);
 
 
-router.post("/", async (req, res) => {
-  try {
-    const creditCardNumber = req.body.card_number;
-    if (!isValidCreditCardNumber(creditCardNumber)) {
-      console.log(creditCardNumber);
-      res.send({
-        status: "INVALID CREDIT CARD -> Format should be 4444555566667777",
-      });
-      console.log("invlid ceredit card");
-      return;
-    }
-
-    let data = await dbConnection();
-    let addCard = await data.insertOne(req.body);
-
-    console.log(req.body);
-    res.send(addCard);
-  } catch (e) {
-    console.log(e); 
-  }
-});
+//Update db using postman body
+router.put("/", cardController.putCard);
 
 
-
-
-//Update ddb using id in postman body
-router.put("/", async (req, res) => {
-  let data = await dbConnection();
-  let result = data.updateOne({ id: req.body.id }, { $set: req.body });
-  res.send({ status: "updated" });
-});
-
-
-
-
-router.delete("/:id", async (req, res) => {
-  const data = await dbConnection();
-  const result = await data.deleteOne({
-    _id: new mongodb.ObjectId(req.params.id),
-  });
-  res.send({ status: "updated" });
-});
+//Delete Card using ID
+router.delete("/:id", cardController.deleteCard);
 
 
 
