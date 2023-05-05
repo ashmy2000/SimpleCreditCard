@@ -1,85 +1,46 @@
-// const mongoose = require("mongoose");
-// const CreditCard = require("../models/cardModels");
-// const { mockModel } = require("jest-mock-extended");
 
-// describe("CreditCard model", () => {
-//   let mockConnection;
-//   let mockModelInstance;
+const creditCards = require ('../controller/cards')
+const app = require('../app');
+const mockData = require('./mockdata.json');
+creditCards.create = jest.fn();
 
-//   beforeAll(() => {
-//     mockConnection = mongoose.createConnection();
-//     mockModelInstance = mockModel<CreditCard>(mockConnection);
-//   });
+const endpointURl = "/";
 
-//   afterAll(() => {
-//     mockConnection.close();
-//   });
 
-//   afterEach(() => {
-//     jest.clearAllMocks();
-//   });
+describe(endpointURl, () => {
+    it("post" + endpointURl, async () => {
+      const response = await request(app)
+          .post(endpointURl)
+          .send(mockData);
+      expect(response.body.name).toBe(mockData.name);
+      expect(response.body.card_number).toBe(mockData.card_number);
+      expect(response.body.balance).toBe(mockData.balance);
+      expect(response.body.limit).toBe(mockData.limit);
+    })
 
-//   describe("schema", () => {
-//     test("should require name field", () => {
-//       const card = new mockModelInstance({
-//         card_number: "1234567890123456",
-//         balance: 1000,
-//         limit: 5000,
-//       });
-//       const error = card.validateSync();
-//       expect(error.errors["name"]).toBeDefined();
+});
+
+
+// describe('getAllCards', () => {
+//     let db;
+  
+//     beforeAll(async () => {
+//       db = await dbConnection();
 //     });
-
-//     test("should require card_number field", () => {
-//       const card = new mockModelInstance({
-//         name: "John Doe",
-//         balance: 1000,
-//         limit: 5000,
-//       });
-//       const error = card.validateSync();
-//       expect(error.errors["card_number"]).toBeDefined();
+  
+//     afterAll(async () => {
+//       await db.close();
 //     });
-
-//     test("should require balance field", () => {
-//       const card = new mockModelInstance({
-//         name: "John Doe",
-//         card_number: "1234567890123456",
-//         limit: 5000,
-//       });
-//       const error = card.validateSync();
-//       expect(error.errors["balance"]).toBeDefined();
+  
+//     it('should return an array of cards', async () => {
+//       const response = await request(app).get('/');
+//       expect(response.status).toBe(200);
+//       expect(response.body).toBeInstanceOf(Array);
 //     });
-
-//     test("should require limit field", () => {
-//       const card = new mockModelInstance({
-//         name: "John Doe",
-//         card_number: "1234567890123456",
-//         balance: 1000,
-//       });
-//       const error = card.validateSync();
-//       expect(error.errors["limit"]).toBeDefined();
-//     });
-
-//     test("should create document with default balance value", () => {
-//       const card = new mockModelInstance({
-//         name: "John Doe",
-//         card_number: "1234567890123456",
-//         limit: 5000,
-//       });
-//       expect(card.balance).toEqual(0);
-//     });
-
-//     test("should create document with correct values", () => {
-//       const card = new mockModelInstance({
-//         name: "John Doe",
-//         card_number: "1234567890123456",
-//         balance: 1000,
-//         limit: 5000,
-//       });
-//       expect(card.name).toEqual("John Doe");
-//       expect(card.card_number).toEqual("1234567890123456");
-//       expect(card.balance).toEqual(1000);
-//       expect(card.limit).toEqual(5000);
+  
+//     it('should return all cards in the database', async () => {
+//       const cards = await db.collection('CreditCard').find({}).toArray();
+//       const response = await request(app).get('/');
+//       expect(response.body).toEqual(cards);
 //     });
 //   });
-// });
