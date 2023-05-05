@@ -5,12 +5,17 @@ const isValidCreditCardNumber = require("../controller/crediCardChecker");
 //Models Schema
 const CreditCard = require("../models/cardModels");
 
+/*            GET                    */ 
+
 exports.getAllCards = async (req, res, next) => {
   let data = await dbConnection();
   data = await data.find({}).toArray();
   // Assume you have a MongoDB collection named "users"
   res.send(data);
 };
+
+
+/*            ADD                    */ 
 
 exports.addCard = async (req, res) => {
   try {
@@ -34,23 +39,37 @@ exports.addCard = async (req, res) => {
     let data = await dbConnection();
     let addCard = await data.insertOne(newCreditCard);
 
-    console.log(newCreditCard);
+    console.log(`New Card Added: ${newCreditCard}`);
     res.send(addCard);
   } catch (e) {
     console.log(e);
   }
 };
 
-exports.putCard = async (req, res) => {
-  let data = await dbConnection();
-  let result = data.updateOne({ id: req.body.id }, { $set: req.body });
-  res.send({ status: "updated" });
-};
 
+/*            UPDATE                    */ 
+exports.putCard = async (req, res) => {
+    try {
+      const data = await dbConnection();
+      const { id } = req.params;
+      const result = await data.updateOne({ _id: new mongodb.ObjectId(id) }, { $set: req.body });
+      res.send({ status: "updated" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ error: "Error: PUT API" });
+    }
+  };
+
+
+/*            DELETE                    */ 
 exports.deleteCard = async (req, res) => {
-  const data = await dbConnection();
-  const result = await data.deleteOne({
-    _id: new mongodb.ObjectId(req.params.id),
-  });
-  res.send({ status: "updated" });
-};
+    try {
+      const data = await dbConnection();
+      const result = await data.deleteOne({
+        _id: new mongodb.ObjectId(req.params.id),});
+        res.send({ status: "deleted" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ error: "Error: DELETE API" });
+    }
+  };
