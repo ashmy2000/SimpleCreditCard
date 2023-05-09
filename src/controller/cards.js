@@ -41,6 +41,7 @@ exports.addCard = async (req, res) => {
 
     console.log(`New Card Added: ${newCreditCard}`);
     res.send(addCard);
+    res.sendStatus(200);
   } catch (e) {
     console.log(e);
   }
